@@ -1,0 +1,277 @@
+/* ============================================================
+   work.css — 工作 / 学术页 · 优雅文艺风
+   衬线字体、暖墨色、克制留白、细线分隔
+   ============================================================ */
+
+:root {
+  --w-paper: #f7f3ec;     /* 纸张底色 */
+  --w-paper-2: #fbf8f2;
+  --w-ink: #38332b;       /* 墨色文字 */
+  --w-ink-soft: #6b6358;
+  --w-line: #e0d7c7;      /* 细线 */
+  --w-gold: #a98b53;      /* 烫金点缀 */
+  --w-gold-soft: #c9b48a;
+}
+
+body.work {
+  background: var(--w-paper);
+  color: var(--w-ink);
+  font-family: var(--font-serif);
+}
+
+/* 浮动导航配色 */
+.work .floating-nav a {
+  background: rgba(251, 248, 242, 0.8);
+  border: 1px solid var(--w-line);
+  color: var(--w-ink-soft);
+}
+
+/* ---------- 头部 Hero ---------- */
+.w-hero {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 130px 28px 70px;
+  text-align: center;
+}
+.w-kicker {
+  font-family: var(--font-sans);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  color: var(--w-gold);
+  margin-bottom: 20px;
+}
+.w-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 1.25;
+  margin-bottom: 22px;
+}
+.w-hero .lead {
+  font-size: 1.12rem;
+  color: var(--w-ink-soft);
+  max-width: 600px;
+  margin: 0 auto;
+  font-style: italic;
+}
+.w-rule {
+  width: 64px;
+  height: 1px;
+  background: var(--w-gold-soft);
+  margin: 40px auto 0;
+  position: relative;
+}
+.w-rule::before {
+  content: "✦";
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--w-gold);
+  font-size: 0.8rem;
+  background: var(--w-paper);
+  padding: 0 8px;
+}
+
+/* ---------- 版心布局：左目录 + 右内容 ---------- */
+.w-layout {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px 28px 100px;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+/* 侧边目录 */
+.w-toc {
+  position: sticky;
+  top: 90px;
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+}
+.w-toc ul { display: flex; flex-direction: column; gap: 4px; }
+.w-toc a {
+  display: block;
+  padding: 7px 12px;
+  border-left: 2px solid var(--w-line);
+  color: var(--w-ink-soft);
+  transition: all 0.3s var(--ease);
+}
+.w-toc a:hover,
+.w-toc a.active {
+  border-left-color: var(--w-gold);
+  color: var(--w-ink);
+  padding-left: 18px;
+}
+
+/* ---------- 内容区块 ---------- */
+.w-content section {
+  margin-bottom: 64px;
+  scroll-margin-top: 90px;
+}
+.w-content h2 {
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.w-content h2 .num {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: var(--w-gold);
+}
+.w-content p {
+  color: var(--w-ink-soft);
+  font-size: 1.04rem;
+  margin-bottom: 16px;
+}
+
+/* 时间线（教育 / 经历） */
+.timeline {
+  border-left: 1px solid var(--w-line);
+  padding-left: 28px;
+}
+.timeline .item {
+  position: relative;
+  padding-bottom: 34px;
+}
+.timeline .item:last-child { padding-bottom: 0; }
+.timeline .item::before {
+  content: "";
+  position: absolute;
+  left: -34px;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--w-paper);
+  border: 2px solid var(--w-gold);
+}
+.timeline .when {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: var(--w-gold);
+  margin-bottom: 4px;
+}
+.timeline .what {
+  font-size: 1.16rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.timeline .where {
+  font-style: italic;
+  color: var(--w-ink-soft);
+  margin-bottom: 8px;
+  font-size: 0.98rem;
+}
+.timeline .desc {
+  font-size: 0.98rem;
+  color: var(--w-ink-soft);
+}
+
+/* 技能 */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.skills span {
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  padding: 7px 16px;
+  border: 1px solid var(--w-line);
+  border-radius: 4px;
+  color: var(--w-ink-soft);
+  background: var(--w-paper-2);
+  transition: all 0.3s var(--ease);
+}
+.skills span:hover {
+  border-color: var(--w-gold);
+  color: var(--w-ink);
+  transform: translateY(-2px);
+}
+
+/* 作品 / 发表 卡片 */
+.works {
+  display: grid;
+  gap: 18px;
+}
+.work-item {
+  border: 1px solid var(--w-line);
+  border-radius: 6px;
+  padding: 22px 24px;
+  background: var(--w-paper-2);
+  transition: all 0.4s var(--ease);
+}
+.work-item:hover {
+  border-color: var(--w-gold-soft);
+  box-shadow: 0 10px 30px rgba(140, 120, 80, 0.1);
+  transform: translateY(-3px);
+}
+.work-item h3 {
+  font-size: 1.18rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.work-item .meta {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  color: var(--w-gold);
+  margin-bottom: 10px;
+}
+.work-item p { margin-bottom: 0; font-size: 0.96rem; }
+
+/* 引用语 */
+.w-quote {
+  font-size: 1.3rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--w-ink);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.w-quote .mark { color: var(--w-gold); font-size: 2rem; }
+
+/* 页脚联系 */
+.w-foot {
+  text-align: center;
+  padding: 60px 28px 80px;
+  border-top: 1px solid var(--w-line);
+  max-width: 820px;
+  margin: 0 auto;
+}
+.w-foot h2 { justify-content: center; }
+.w-foot .contacts {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  font-family: var(--font-sans);
+}
+.w-foot .contacts a {
+  color: var(--w-gold);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+  font-size: 0.96rem;
+}
+.w-foot .contacts a:hover { border-color: var(--w-gold); }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 760px) {
+  .w-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .w-toc { display: none; }
+  .w-hero { padding-top: 100px; }
+}
