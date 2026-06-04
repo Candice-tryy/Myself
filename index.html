@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>唐瑞遥 Candice · 个人主页</title>
   <meta name="description" content="唐瑞遥 Candice 的个人主页 —— 同济大学供应链管理研究生。" />
-  <!-- Google Fonts（正文/标题依据 docs/00 §3；Permanent Marker + Caveat Brush 为粉笔刷欢迎语）-->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Hanken+Grotesk:wght@400;500;600&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500&family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -14,25 +14,48 @@
 </head>
 <body class="page-home">
 
+  <!-- 粉笔粗糙化 SVG 滤镜（不可见） -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <!-- 干粉笔质感：实白笔画 + 极淡颗粒 + 轻微毛糙边缘（不扭曲字形）-->
+      <filter id="chalk-rough" x="-8%" y="-12%" width="116%" height="126%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="fine" />
+        <feColorMatrix in="fine" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.5 1.22" result="speckle" />
+        <feComposite in="SourceGraphic" in2="speckle" operator="in" result="chalk" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="1" seed="2" result="edge" />
+        <feDisplacementMap in="chalk" in2="edge" scale="1.6" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="chalk-soft" x="-12%" y="-16%" width="124%" height="132%">
+        <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="3" result="n" />
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.1 1.12" result="s" />
+        <feComposite in="SourceGraphic" in2="s" operator="in" />
+      </filter>
+    </defs>
+  </svg>
+
   <!-- ===== 背景三层（海在底，位移最小） ===== -->
-  <div class="hero-bg" data-depth="0.04"><img src="assets/hero_sea.png" alt="" /></div>
+  <div class="hero-bg" data-depth="0.04"><img src="assets/hero_bg.jpg" alt="" /></div>
   <div class="hero-shimmer" aria-hidden="true"></div>
   <div class="hero-veil" aria-hidden="true"></div>
 
   <!-- 飘落的星星（JS 生成） -->
   <div class="stars" aria-hidden="true"></div>
 
-  <!-- ===== 语言切换 ===== -->
-  <button class="lang-toggle glass" onclick="toggleLang()" aria-label="切换语言 / Switch language">
-    <span lang="zh">EN</span><span lang="en">中</span>
-  </button>
+  <!-- ===== 左上角：语言切换 + 音乐（白色粉笔粗糙字体） ===== -->
+  <div class="top-controls">
+    <button class="chalk-ctrl" onclick="toggleLang()" aria-label="切换语言 / Switch language">
+      <span lang="zh">EN</span><span lang="en">中</span>
+    </button>
+    <button class="chalk-ctrl music-ctrl" id="music-btn" aria-label="播放/暂停音乐" aria-pressed="false">♪</button>
+  </div>
+  <!-- 背景音乐：你之后把 mp3 命名为 assets/music.mp3 放进来即可 -->
+  <audio id="bgm" src="assets/music.mp3" loop preload="none"></audio>
 
   <main class="hero">
 
-    <!-- 顶部欢迎语：粉笔刷 · 立体 · 逐字书写 · 写完画出小太阳 -->
+    <!-- 顶部欢迎语：粉笔刷 · 粗糙 · 立体 · 逐字书写 · 写完画出小太阳 -->
     <div class="welcome">
       <span class="welcome-line">Welcome~</span>
-      <!-- 手绘小太阳：写完后一笔笔画出来再抖动 -->
       <svg class="welcome-sun" viewBox="0 0 100 100" width="92" height="92" aria-hidden="true">
         <g class="sun-ink" fill="none" stroke="#ffce3a" stroke-width="4.5" stroke-linecap="round">
           <line class="stroke" x1="50" y1="5"  x2="50" y2="19" />
@@ -53,21 +76,20 @@
       </svg>
     </div>
 
-    <!-- 人像（右移 · 中景 · 跟手浮动） -->
+    <!-- 人像（放大 · 填补左侧空白） -->
     <figure class="person" data-depth="0.10">
       <img src="assets/person.png" alt="唐瑞遥 Candice" />
       <span class="person-halo" aria-hidden="true"></span>
     </figure>
 
-    <!-- 右侧整列：名片 → 〔引导语 + 两颗气泡〕两栏 -->
+    <!-- 右侧整列：名片 → 〔引导语面板 + 两颗气泡〕 -->
     <div class="right-col">
 
-      <!-- 名片（横向 · 暗青玻璃 · 白字 · 朝光标 3D 转身） -->
+      <!-- 名片（横向 · 暗青玻璃 · 白字 · 精致版） -->
       <section class="card glass" id="card" data-depth="0.18">
         <span class="card-shine" aria-hidden="true"></span>
 
         <div class="avatar">
-          <!-- 有头像图时换成 <img src="assets/avatar.jpg" alt="头像"> -->
           <span class="avatar-letter">唐</span>
         </div>
 
@@ -80,8 +102,8 @@
             <span lang="en">Supply Chain Management · Tongji</span>
           </p>
           <ul class="meta">
-            <li>✉ <a href="mailto:try_candice@163.com">try_candice@163.com</a></li>
-            <li>📍 <span lang="zh">上海</span><span lang="en">Shanghai</span></li>
+            <li><span class="mi">📍</span> <span lang="zh">上海</span><span lang="en">Shanghai</span></li>
+            <li><span class="mi">✉</span> <a href="mailto:try_candice@163.com">try_candice@163.com</a></li>
           </ul>
           <nav class="socials" aria-label="社交链接">
             <a class="social" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
@@ -98,12 +120,13 @@
         </div>
       </section>
 
-      <!-- 引导语(左) + 两颗气泡(右)：两栏 -->
+      <!-- 引导语面板(左) + 两颗气泡(右) -->
       <div class="enter-row">
-        <p class="enter-hint">
-          <span lang="zh">选一个<br>方向<br>戳破进入<br>✦</span>
-          <span lang="en">Pick a<br>side<br>pop to<br>enter ✦</span>
-        </p>
+        <div class="enter-hint glass">
+          <span class="eh-title"><span lang="zh">由此进入</span><span lang="en">Enter</span></span>
+          <span class="eh-sub"><span lang="zh">戳破一颗气泡</span><span lang="en">pop a bubble</span></span>
+          <span class="enter-arrow" aria-hidden="true">→</span>
+        </div>
         <nav class="portals" aria-label="进入">
           <a class="bubble bubble-work" href="work.html" aria-label="进入工作页">
             <span class="bubble-label"><span lang="zh">工作 · 学术</span><span lang="en">Work · Academia</span></span>
@@ -117,6 +140,8 @@
     </div>
 
   </main>
+
+  <footer class="site-footer">© <span id="year"></span> 唐瑞遥 Candice · 同济大学供应链管理 · All rights reserved.</footer>
 
   <script src="js/main.js"></script>
 </body>

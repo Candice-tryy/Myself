@@ -4,142 +4,197 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>工作 · 学术 — 唐瑞遥 Candice</title>
-  <meta name="description" content="我的工作经历、学术研究、专业技能与作品。" />
-  <!-- Google Fonts（依据 docs/00 §3）-->
+  <meta name="description" content="唐瑞遥 Candice 的工作与学术 —— 同济大学供应链管理研究生。" />
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Hanken+Grotesk:wght@400;500;600&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Hanken+Grotesk:wght@400;500;600&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500&family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/common.css" />
   <link rel="stylesheet" href="css/work.css" />
 </head>
-<body class="work">
+<body class="page-work">
 
-  <!-- 浮动导航：返回首页 / 去生活页 -->
-  <nav class="floating-nav">
-    <a href="index.html">← 返回名片</a>
-    <a href="life.html">生活的一面 ✿</a>
+  <!-- 粉笔粗糙化 SVG 滤镜（给左上角控件用） -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="chalk-soft" x="-12%" y="-16%" width="124%" height="132%">
+        <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="3" result="n" />
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.1 1.12" result="s" />
+        <feComposite in="SourceGraphic" in2="s" operator="in" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- 固定清晰山景背景（无蒙版） + 飘叶 -->
+  <div class="mountain-bg"><img src="assets/hero-mountain.png" alt="" /></div>
+  <div class="leaves" aria-hidden="true"></div>
+
+  <!-- 左上角：语言 + 音乐 -->
+  <div class="top-controls">
+    <button class="chalk-ctrl" onclick="toggleLang()" aria-label="切换语言 / Switch language">
+      <span lang="zh">EN</span><span lang="en">中</span>
+    </button>
+    <button class="chalk-ctrl music-ctrl" id="music-btn" aria-label="播放/暂停音乐" aria-pressed="false">♪</button>
+  </div>
+  <audio id="bgm" src="assets/music.mp3" loop preload="none"></audio>
+
+  <!-- 右上角：页面导航 -->
+  <nav class="page-nav" aria-label="页面导航">
+    <a href="index.html"><span lang="zh">← 首页</span><span lang="en">← Home</span></a>
+    <a href="life.html"><span lang="zh">生活 →</span><span lang="en">Life →</span></a>
   </nav>
 
-  <!-- ============ Hero ============ -->
+  <!-- ===== Hero ===== -->
   <header class="w-hero">
-    <p class="w-kicker reveal">Work &amp; Academia</p>
-    <h1 class="reveal">在专业里，我追求<br />深度与诚意</h1>
-    <p class="lead reveal">这里记录我的研究、经历与作品 —— 那些被认真对待过的事。</p>
-    <div class="w-rule reveal"></div>
+    <div class="w-hero-inner" data-depth="0.05">
+      <p class="w-kicker">Work &amp; Academia</p>
+      <h1 class="w-title">
+        <span lang="zh">工作 · 学术</span><span lang="en">Work &amp; Academia</span>
+      </h1>
+      <p class="w-name">
+        <b>唐瑞遥 · Candice</b><br />
+        <span lang="zh">同济大学 · 供应链管理（学术型研究生）</span>
+        <span lang="en">Supply Chain Management · Tongji University</span>
+      </p>
+      <p class="w-intro">
+        <span lang="zh">一段你的专业定位与研究志向：你是谁、专注什么、抱着怎样的方法与信念在做事。<span class="w-muted">（占位，稍后替换）</span></span>
+        <span lang="en">A line on your focus and research ambition — who you are and the method and belief you bring to your work. <span class="w-muted">(placeholder)</span></span>
+      </p>
+    </div>
+    <a class="scroll-cue" href="#education" aria-label="进入下一屏">
+      <span class="cue-text"><span lang="zh">点击进入</span><span lang="en">ENTER</span></span>
+      <svg class="cue-svg" viewBox="0 0 28 28" aria-hidden="true"><path d="M6 10l8 8 8-8" /></svg>
+    </a>
   </header>
 
-  <!-- ============ 主体：左目录 + 右内容 ============ -->
-  <div class="w-layout">
+  <!-- ===== 内容 ===== -->
+  <main class="w-content">
 
-    <!-- 侧边目录 -->
-    <aside class="w-toc reveal">
-      <ul>
-        <li><a href="#intro"    data-spy>简介</a></li>
-        <li><a href="#edu"      data-spy>教育 / 学术</a></li>
-        <li><a href="#exp"      data-spy>工作经历</a></li>
-        <li><a href="#skills"   data-spy>专业技能</a></li>
-        <li><a href="#works"    data-spy>作品 / 发表</a></li>
-      </ul>
-    </aside>
-
-    <!-- 内容 -->
-    <main class="w-content">
-
-      <!-- 简介 -->
-      <section id="intro" class="reveal">
-        <h2><span class="num">01</span> 简介</h2>
-        <p>
-          在这里写一段关于你专业身份的介绍：你是谁、专注于什么领域、抱着怎样的方法与信念在工作。
-          建议三到四句，既概括又有温度。
-        </p>
-        <p>
-          例如：「我是一名专注于 ____ 的研究者 / 从业者，过去 ____ 年里我把时间花在 ____ 上，
-          相信好的工作来自对细节的尊重与持续的思考。」
-        </p>
-      </section>
-
-      <!-- 教育 / 学术 -->
-      <section id="edu" class="reveal">
-        <h2><span class="num">02</span> 教育 · 学术背景</h2>
-        <div class="timeline">
-          <div class="item">
-            <div class="when">2025 — 2028（在读）</div>
-            <div class="what">学术型硕士 · 供应链管理</div>
-            <div class="where">同济大学</div>
-            <div class="desc">研究方向、导师、关注的课题方向，一两句概括（待补充）。</div>
+    <!-- 1 教育背景 -->
+    <section id="education" class="w-section">
+      <div class="w-card reveal">
+        <h2 class="w-h2"><span class="num">02</span>
+          <span lang="zh">教育背景</span><span lang="en">Education</span></h2>
+        <div class="w-timeline">
+          <div class="w-item">
+            <div class="w-when">2025 — 2028（在读 / Present）</div>
+            <div class="w-what"><span lang="zh">学术型硕士 · 供应链管理</span><span lang="en">M.S. · Supply Chain Management</span></div>
+            <div class="w-where"><span lang="zh">同济大学</span><span lang="en">Tongji University</span></div>
+            <div class="w-desc"><span lang="zh">研究方向、导师与关注课题，一两句概括。<span class="w-muted">（待补充）</span></span><span lang="en">Research direction, advisor and topics of interest. <span class="w-muted">(to be added)</span></span></div>
           </div>
-          <div class="item">
-            <div class="when">2021 — 2025</div>
-            <div class="what">学士 · 专业名称</div>
-            <div class="where">本科院校</div>
-            <div class="desc">主修课程、荣誉、社团或值得一提的经历（待补充）。</div>
+          <div class="w-item">
+            <div class="w-when">2021 — 2025</div>
+            <div class="w-what"><span lang="zh">学士 · 专业名称</span><span lang="en">B.S. · Major</span></div>
+            <div class="w-where"><span lang="zh">本科院校</span><span lang="en">Undergraduate University</span></div>
+            <div class="w-desc"><span lang="zh">主修课程、荣誉或值得一提的经历。<span class="w-muted">（待补充）</span></span><span lang="en">Core courses, honors or notable experiences. <span class="w-muted">(to be added)</span></span></div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- 工作经历 -->
-      <section id="exp" class="reveal">
-        <h2><span class="num">03</span> 工作经历</h2>
-        <div class="timeline">
-          <div class="item">
-            <div class="when">2024 — 至今</div>
-            <div class="what">职位名称</div>
-            <div class="where">公司 / 机构名称</div>
-            <div class="desc">你负责什么、做出了什么成果，尽量用具体的数字或结果来描述。</div>
-          </div>
-          <div class="item">
-            <div class="when">2022 — 2024</div>
-            <div class="what">职位名称</div>
-            <div class="where">公司 / 机构名称</div>
-            <div class="desc">一段简短描述：核心职责与亮点成就。</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 技能 -->
-      <section id="skills" class="reveal">
-        <h2><span class="num">04</span> 专业技能</h2>
-        <p>把你擅长的工具、方法、语言或专业能力列在这里：</p>
-        <div class="skills">
-          <span>技能 A</span>
-          <span>技能 B</span>
-          <span>技能 C</span>
-          <span>工具 / 软件</span>
-          <span>方法论</span>
-          <span>语言能力</span>
-        </div>
-      </section>
-
-      <!-- 作品 / 发表 -->
-      <section id="works" class="reveal">
-        <h2><span class="num">05</span> 作品 · 发表</h2>
-        <div class="works">
-          <article class="work-item">
-            <div class="meta">论文 / 项目 · 2024</div>
-            <h3>作品或论文标题</h3>
-            <p>一句话说明它解决了什么、你的角色，以及可以链接到的去处。</p>
+    <!-- 3 项目 -->
+    <section id="projects" class="w-section">
+      <div class="w-card reveal">
+        <h2 class="w-h2"><span class="num">03</span>
+          <span lang="zh">项目</span><span lang="en">Projects</span></h2>
+        <p class="w-lead w-muted"><span lang="zh">我的研究方向也体现在这些项目里。（占位，稍后替换为真实项目）</span><span lang="en">My research direction is reflected in these projects. (placeholders)</span></p>
+        <div class="w-projects">
+          <article class="w-proj">
+            <span class="tag">PROJECT · 2025</span>
+            <h3><span lang="zh">项目标题一</span><span lang="en">Project Title I</span></h3>
+            <p><span lang="zh">一句话说明做了什么、你的角色与成果。</span><span lang="en">One line on what it solved, your role and outcome.</span></p>
           </article>
-          <article class="work-item">
-            <div class="meta">项目 · 2023</div>
-            <h3>另一个代表作</h3>
-            <p>简要描述。可以贴上链接、获奖情况或合作方。</p>
+          <article class="w-proj">
+            <span class="tag">PROJECT · 2024</span>
+            <h3><span lang="zh">项目标题二</span><span lang="en">Project Title II</span></h3>
+            <p><span lang="zh">简要描述，可贴链接、数据或合作方。</span><span lang="en">Brief description; add links, metrics or collaborators.</span></p>
           </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-    </main>
-  </div>
+    <!-- 4 工作 / 实习 -->
+    <section id="experience" class="w-section">
+      <div class="w-card reveal">
+        <h2 class="w-h2"><span class="num">04</span>
+          <span lang="zh">工作 / 实习</span><span lang="en">Experience</span></h2>
+        <div class="w-timeline">
+          <div class="w-item">
+            <div class="w-when">2024 — <span lang="zh">至今</span><span lang="en">Present</span></div>
+            <div class="w-what"><span lang="zh">职位名称</span><span lang="en">Role Title</span></div>
+            <div class="w-where"><span lang="zh">公司 / 机构</span><span lang="en">Company / Org</span></div>
+            <div class="w-desc"><span lang="zh">负责什么、做出了什么成果（尽量用具体数字）。<span class="w-muted">（待补充）</span></span><span lang="en">What you owned and achieved (use concrete numbers). <span class="w-muted">(to be added)</span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <!-- ============ 引用 + 联系 ============ -->
-  <section id="contact" class="w-foot reveal">
-    <p class="w-quote"><span class="mark">“</span> 把每一件值得做的事，做到对得起自己。 <span class="mark">”</span></p>
-    <h2 style="margin-top:40px;"><span class="num">06</span> 联系我</h2>
-    <p>如果我们的方向相合，欢迎随时联系。</p>
-    <div class="contacts">
-      <a href="mailto:try_candice@163.com">try_candice@163.com</a>
-      <a href="#" target="_blank" rel="noopener">领英 / 主页</a>
-    </div>
-  </section>
+    <!-- 5 专业技能 -->
+    <section id="skills" class="w-section">
+      <div class="w-card reveal">
+        <h2 class="w-h2"><span class="num">05</span>
+          <span lang="zh">专业技能</span><span lang="en">Skills</span></h2>
+        <div class="w-skills">
+          <span>Excel / 数据分析</span><span>SQL</span><span>Python</span>
+          <span><span lang="zh">供应链建模</span><span lang="en">SC Modeling</span></span>
+          <span><span lang="zh">运筹优化</span><span lang="en">Optimization</span></span>
+          <span><span lang="zh">英语</span><span lang="en">English</span></span>
+        </div>
+        <p class="w-lead w-muted" style="margin-top:var(--s-4)"><span lang="zh">（占位技能，按真实情况增删）</span><span lang="en">(placeholder skills — edit to fit)</span></p>
+      </div>
+    </section>
+
+    <!-- 6 成果 / 获奖 -->
+    <section id="awards" class="w-section">
+      <div class="w-card reveal">
+        <h2 class="w-h2"><span class="num">06</span>
+          <span lang="zh">成果 / 获奖</span><span lang="en">Achievements</span></h2>
+        <ul class="w-list">
+          <li><span lang="zh">论文 / 专利 / 竞赛获奖 —— 标题与年份。<span class="w-muted">（待补充）</span></span><span lang="en">Paper / patent / award — title and year. <span class="w-muted">(to be added)</span></span></li>
+          <li><span lang="zh">奖学金或荣誉。<span class="w-muted">（待补充）</span></span><span lang="en">Scholarship or honor. <span class="w-muted">(to be added)</span></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7 简历下载 -->
+    <section id="resume" class="w-section">
+      <div class="w-card reveal">
+        <h2 class="w-h2"><span class="num">07</span>
+          <span lang="zh">简历</span><span lang="en">Résumé</span></h2>
+        <div class="w-resume">
+          <!-- TODO：把简历 PDF 放到 assets/resume.pdf -->
+          <a class="w-btn" href="assets/resume.pdf" target="_blank" rel="noopener">⬇ <span lang="zh">下载简历 (PDF)</span><span lang="en">Download CV (PDF)</span></a>
+          <span class="w-muted"><span lang="zh">（PDF 放到 assets/resume.pdf 即可）</span><span lang="en">(drop your PDF at assets/resume.pdf)</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 联系方式 -->
+    <section id="contact" class="w-section">
+      <div class="w-card reveal">
+        <h2 class="w-h2"><span class="num">08</span>
+          <span lang="zh">联系方式</span><span lang="en">Contact</span></h2>
+        <div class="w-contact">
+          <a href="mailto:try_candice@163.com">✉ try_candice@163.com</a>
+          <a href="#" target="_blank" rel="noopener"><span lang="zh">领英 / 主页（待补充）</span><span lang="en">LinkedIn / Homepage (to be added)</span></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 左侧章节导航轴（刻度 + 名称浮出 + 高亮） -->
+  <nav class="w-rail" aria-label="章节导航">
+    <a href="#education" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">教育</span><span lang="en">Education</span></span></a>
+    <a href="#projects" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">项目</span><span lang="en">Projects</span></span></a>
+    <a href="#experience" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">工作 / 实习</span><span lang="en">Experience</span></span></a>
+    <a href="#skills" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">技能</span><span lang="en">Skills</span></span></a>
+    <a href="#awards" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">成果 / 获奖</span><span lang="en">Achievements</span></span></a>
+    <a href="#resume" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">简历</span><span lang="en">Résumé</span></span></a>
+    <a href="#contact" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">联系</span><span lang="en">Contact</span></span></a>
+  </nav>
+
+  <footer class="site-footer">© <span id="year"></span> 唐瑞遥 Candice · 同济大学供应链管理 · All rights reserved.</footer>
 
   <script src="js/main.js"></script>
 </body>

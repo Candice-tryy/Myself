@@ -155,13 +155,13 @@ function toggleLang() {
       layer.className = "droplets";
       document.body.appendChild(layer);
 
-      var n = 14;
+      var n = 32;                                  // 很多很多小气泡
       for (var i = 0; i < n; i++) {
         var d = document.createElement("span");
         d.className = "droplet";
-        var ang = (Math.PI * 2 * i) / n + Math.random() * 0.5;
-        var dist = 38 + Math.random() * 54;
-        var sz = 5 + Math.random() * 8;
+        var ang = (Math.PI * 2 * i) / n + (Math.random() - 0.5) * 0.7;
+        var dist = 30 + Math.random() * 100;       // 向外四散，远近不一
+        var sz = 4 + Math.random() * 14;
         d.style.left = cx + "px";
         d.style.top = cy + "px";
         d.style.width = sz + "px";
@@ -170,7 +170,7 @@ function toggleLang() {
         d.style.setProperty("--dy", Math.sin(ang) * dist + "px");
         layer.appendChild(d);
       }
-      window.setTimeout(function () { layer.remove(); }, 700);
+      window.setTimeout(function () { layer.remove(); }, 900);
     }
   })();
 
@@ -227,5 +227,119 @@ function toggleLang() {
       tip.style.opacity = "0";
       if (sun) sun.classList.add("go");
     }, START + chars.length * STEP + 160);
+  })();
+
+  /* ---------- 2.8 背景音乐 开关 ---------- */
+  (function () {
+    var btn = document.getElementById("music-btn");
+    var audio = document.getElementById("bgm");
+    if (!btn || !audio) return;
+    btn.addEventListener("click", function () {
+      var playing = btn.classList.toggle("playing");
+      btn.setAttribute("aria-pressed", playing ? "true" : "false");
+      if (playing) {
+        audio.play().catch(function () { /* mp3 还没上传则静默忽略 */ });
+      } else {
+        audio.pause();
+      }
+    });
+  })();
+
+  /* ---------- 2.9 工作/生活页：飘落的绿叶 ---------- */
+  (function () {
+    var box = document.querySelector(".leaves");
+    if (!box) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var glyphs = ["🍃", "🌿"];
+    var N = 16;
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < N; i++) {
+      var s = document.createElement("span");
+      s.className = "leaf";
+      s.textContent = glyphs[(Math.random() * glyphs.length) | 0];
+      var dur = 10 + Math.random() * 12;                         // 10-22s（叶子飘得慢）
+      s.style.left = (Math.random() * 100).toFixed(2) + "%";
+      s.style.fontSize = (14 + Math.random() * 16).toFixed(0) + "px";
+      s.style.opacity = "0.85";
+      s.style.setProperty("--sway", ((Math.random() - 0.5) * 220).toFixed(0) + "px");
+      s.style.animationDuration = dur.toFixed(2) + "s";
+      s.style.animationDelay = (-Math.random() * dur).toFixed(2) + "s";
+      frag.appendChild(s);
+    }
+    box.appendChild(frag);
+  })();
+
+  /* ---------- 2.10 工作页 deck：整屏吸附 + 点击弹性翻页 ---------- */
+  (function () {
+    var hero = document.querySelector(".w-hero");
+    if (!hero) return;                                  // 仅工作页
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var docEl = document.documentElement;
+
+    // 仅本页开启整屏吸附
+    if (!reduced) docEl.style.scrollSnapType = "y mandatory";
+
+    // 回弹缓动（easeOutBack：结尾轻微越过再归位 → "弹"上来）
+    function easeOutBack(t) {
+      var c1 = 1.70158, c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    }
+
+    function springTo(targetY, dur) {
+      var startY = window.scrollY, dist = targetY - startY, t0 = null;
+      var prevSnap = docEl.style.scrollSnapType;
+      docEl.style.scrollSnapType = "none";            // 动画期间关闭吸附，避免打架
+      function step(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min((ts - t0) / dur, 1);
+        window.scrollTo(0, Math.round(startY + dist * easeOutBack(p)));
+        if (p < 1) requestAnimationFrame(step);
+        else docEl.style.scrollSnapType = prevSnap;    // 还原吸附
+      }
+      requestAnimationFrame(step);
+    }
+
+    function goTo(target) {
+      if (!target) return;
+      var y = Math.round(target.getBoundingClientRect().top + window.scrollY);
+      if (reduced) { window.scrollTo(0, y); return; }
+      springTo(y, 780);
+    }
+
+    // 向下指引 + 左侧轴：点击 → 弹性滚到对应屏
+    // 为每个内容屏（除最后一屏）生成"只箭头"指引，点击弹到下一屏
+    var screens = Array.prototype.slice.call(document.querySelectorAll(".w-hero, .w-section"));
+    for (var i = 1; i < screens.length - 1; i++) {       // 跳过 Hero(已有带字指引) 与最后一屏
+      var next = screens[i + 1];
+      if (!next.id) continue;
+      var cue = document.createElement("a");
+      cue.className = "scroll-cue cue-arrow";
+      cue.href = "#" + next.id;
+      cue.setAttribute("aria-label", "下一屏");
+      cue.innerHTML = '<svg class="cue-svg" viewBox="0 0 28 28" aria-hidden="true"><path d="M6 10l8 8 8-8"/></svg>';
+      screens[i].appendChild(cue);
+    }
+
+    // 指引 + 左侧轴：事件委托 → 弹性滚动（兼容动态生成的指引）
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest(".scroll-cue, .w-rail a");
+      if (!a) return;
+      var href = a.getAttribute("href");
+      if (!href || href.charAt(0) !== "#") return;
+      var t = document.getElementById(href.slice(1));
+      if (t) { e.preventDefault(); goTo(t); }
+    });
+
+    // 每次进入板块 → 卡片重新弹入（离开则瞬间复位，回来再弹）
+    if (!reduced && "IntersectionObserver" in window) {
+      var cards = document.querySelectorAll(".w-card.reveal");
+      var reObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          e.target.classList.toggle("in", e.isIntersecting);
+        });
+      }, { threshold: 0.35 });
+      Array.prototype.forEach.call(cards, function (c) { reObs.observe(c); });
+    }
   })();
 })();

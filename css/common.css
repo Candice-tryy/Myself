@@ -26,6 +26,7 @@ ul { list-style: none; }
   --ink-3:     #9AA7AD;             /* 说明 / 占位 / 时间戳 */
   --line:      rgba(27, 42, 51, .08); /* 发丝分隔线 */
   --shadow:    rgba(27, 42, 51, .10); /* 柔和投影 */
+  --cream:     #ECE6D8;             /* 米白：全站统一的"次要文字"色 */
 
   /* —— 间距尺度 / Spacing（8 基准）—— */
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
@@ -163,6 +164,17 @@ html[data-lang="en"] [lang="zh"] { display: none; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--line); border-radius: var(--r-pill); }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+/* ---------- 站点页脚（版权，全站居中） ---------- */
+.site-footer {
+  text-align: center;
+  font: 500 .76rem/1.5 var(--font-body);
+  letter-spacing: .05em;
+  color: var(--ink-3);
+  padding: var(--s-8) var(--s-4) var(--s-6);
+}
+.site-footer a { color: inherit; border-bottom: 1px solid transparent; transition: border-color var(--t); }
+.site-footer a:hover { border-color: currentColor; }
 
 /* ============================================================
    7 · 无障碍 / Reduced Motion
