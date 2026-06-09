@@ -1,6 +1,6 @@
-# CLAUDE.md —— 唐瑞遥 Candice 个人网站
+# AGENTS.md —— 唐瑞遥 Candice 个人网站
 
-> 给未来的 Claude / 协作者：这是一个**纯静态、零构建**的个人介绍网站（HTML + CSS + 原生 JS），
+> 给未来的 Codex / 协作者：这是一个**纯静态、零构建**的个人介绍网站（HTML + CSS + 原生 JS），
 > 双击即开，本地用 `python -m http.server` 预览。本文件记录**设计风格、当前进度、待办**。
 > 详细设计规范见 `docs/00~03`，本文件是"速查 + 现状"。
 
@@ -87,7 +87,7 @@
 - 皮肤：暖调白雾玻璃卡（白字 + 淡柔影）、**草绿 `--accent`/麦金 `--accent-warm` 强调色**、更圆润的 **Baloo 2** 标题字；左上粉笔控件、右上换页药丸（← 首页 / 工作 →）、左侧章节轴、底部居中页脚——**与首页/工作页一致**。
 - 彩蛋互动（`docs/03`）：① ENFJ 名牌**点击翻面** ② 特质条**进入视口充能**（green→wheat） ③ 爱好神秘卡**悬停揭晓** ④ 宠物**「戳我」喷爱心** ⑤ 美食 No.1**点击撒花**。均在 `prefers-reduced-motion` 下关闭。
 - 占位：宠物主角/照片墙暂用**玻璃 emoji 占位**（非 broken img），待真图换 `<img>`（HTML 内有 TODO 注释）。
-- 验收（Claude Preview 1536×864 量化）：箭头距版权 ~22px 不压；各卡不压箭头（宠物卡已从 555→448px，原 4:5 占位改 1:1）；deck 回弹 overshoot ~84px 后精确停靠。
+- 验收（Codex Preview 1536×864 量化）：箭头距版权 ~22px 不压；各卡不压箭头（宠物卡已从 555→448px，原 4:5 占位改 1:1）；deck 回弹 overshoot ~84px 后精确停靠。
 
 ---
 
@@ -96,7 +96,7 @@
 ```
 Myself/
 ├── index.html / work.html / life.html
-├── CLAUDE.md（本文件）/ README.md
+├── AGENTS.md（本文件）/ README.md
 ├── css/  common.css(地基) · home.css · work.css · life.css
 ├── js/   main.js（全站唯一脚本，按编号分段）
 ├── tools/ make_assets.py（一键抠图+生成背景，需 rembg/opencv/Pillow）
@@ -133,13 +133,13 @@ Myself/
 - 🅰️ **文字仅 3 色**（白 / 米白 `--cream` / 当页强调色），**少用阴影**，要对比优先用颜色·字重·毛玻璃药丸。
 - 🪟 偏好**玻璃质感**（适当透明、别太"毛"）；背景照片要**清晰**、**不要丑蒙版**。
 - 🧭 **动手前先澄清**：用户喜欢"**一次只问一个问题**、层层追问到 95% 把握再给方案"的流程——遇到方向性决策，先问，别擅自发挥。
-- ✅ 每次改完用 **Claude Preview** 自检（见下），**用 `getBoundingClientRect`/`getComputedStyle` 量化验证**，截图作辅助。
+- ✅ 每次改完用 **Codex Preview** 自检（见下），**用 `getBoundingClientRect`/`getComputedStyle` 量化验证**，截图作辅助。
 
 ---
 
 ## 7. 本地预览
 
-- 服务：`python -m http.server 5500`，配置在 **`D:\vibe\try1\.claude\launch.json`**（name=`myself`），`--directory` 指向 `D:/vibe/Myself`。
+- 服务：`python -m http.server 5500`，配置在 **`D:\vibe\try1\.Codex\launch.json`**（name=`myself`），`--directory` 指向 `D:/vibe/Myself`。
 - ⚠️ **路径注意**：网站在 `D:\vibe\Myself`，但 harness 工作目录是 `D:\vibe\try1`，两者不同。
 - 预览技巧：CSS 改动后 `<head>` 的 `css/*.css` 不带 cache-bust，需在 eval 里给 `<link>` 追加 `?v=` 强刷；导航用 `?v=时间戳`。
 - 已知环境问题：大量 `backdrop-filter` + 无限动画时**截图偶尔超时/卡**，**重启 preview server** 可恢复；高分屏截图会被缩小（量化检查更可靠）。
@@ -156,7 +156,7 @@ Myself/
 **开发**
 - [x] **生活页 `life.html`（原）整体重做**——已按新皮肤（deck）完成（2026-06-04），详见 §3。
 - [ ] **移除首页残留的 `.hero-veil`**（`css/home.css`，用户说过"首页不用蒙版"，目前是一层极淡白渐变）
-- [x] 工作页验收（2026-06-04，Claude Preview 1536×864 量化）：
+- [x] 工作页验收（2026-06-04，Codex Preview 1536×864 量化）：
   - **粗箭头压版权 → 已修**：`.scroll-cue` bottom `--s-12`→`--s-16`，箭头距版权由 ~6px 提到 **~22px**（hero + 各屏一致），卡片距箭头仍 ≥103px 不碰。
   - **白雾卡白字可读性 → 验收通过**：背景照实测亮处亮度高（avg .35–.58，雪/天空尖峰 ~.99），纯亮度对比偏低，但靠**白字深色柔影**逐字撑起可读性；卡片左对齐文字落在较暗山体上、亮斑在右侧少字区。此为用户选定的**方案 A**，未擅改。
   - **deck 回弹手感 → 验收通过**：点指引 0→864，越过到 949（overshoot ~85px）再弹回精确停在 864。

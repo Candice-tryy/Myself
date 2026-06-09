@@ -245,20 +245,23 @@ function toggleLang() {
     });
   })();
 
-  /* ---------- 2.9 工作/生活页：飘落的绿叶 ---------- */
+  /* ---------- 2.9 工作页飘叶 / 生活页飘花瓣（同一机制） ---------- */
   (function () {
-    var box = document.querySelector(".leaves");
+    var petalBox = document.querySelector(".petals");
+    var box = document.querySelector(".leaves") || petalBox;
     if (!box) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    var glyphs = ["🍃", "🌿"];
+    var isPetal = !!petalBox;                                    // 生活页飘花瓣，工作页飘叶
+    var childClass = isPetal ? "petal" : "leaf";
+    var glyphs = isPetal ? ["🌸", "🌼", "🌾", "🍃"] : ["🍃", "🌿"];
     var N = 16;
     var frag = document.createDocumentFragment();
     for (var i = 0; i < N; i++) {
       var s = document.createElement("span");
-      s.className = "leaf";
+      s.className = childClass;
       s.textContent = glyphs[(Math.random() * glyphs.length) | 0];
-      var dur = 10 + Math.random() * 12;                         // 10-22s（叶子飘得慢）
+      var dur = 10 + Math.random() * 12;                         // 10-22s（飘得慢）
       s.style.left = (Math.random() * 100).toFixed(2) + "%";
       s.style.fontSize = (14 + Math.random() * 16).toFixed(0) + "px";
       s.style.opacity = "0.85";
@@ -270,10 +273,10 @@ function toggleLang() {
     box.appendChild(frag);
   })();
 
-  /* ---------- 2.10 工作页 deck：整屏吸附 + 点击弹性翻页 ---------- */
+  /* ---------- 2.10 deck（工作 / 生活页）：整屏吸附 + 点击弹性翻页 ---------- */
   (function () {
-    var hero = document.querySelector(".w-hero");
-    if (!hero) return;                                  // 仅工作页
+    var hero = document.querySelector(".w-hero, .l-hero");
+    if (!hero) return;                                  // 仅 deck 页（工作 / 生活）
     var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var docEl = document.documentElement;
 
@@ -289,13 +292,15 @@ function toggleLang() {
     function springTo(targetY, dur) {
       var startY = window.scrollY, dist = targetY - startY, t0 = null;
       var prevSnap = docEl.style.scrollSnapType;
+      var prevBeh = docEl.style.scrollBehavior;
       docEl.style.scrollSnapType = "none";            // 动画期间关闭吸附，避免打架
+      docEl.style.scrollBehavior = "auto";            // 关掉 CSS smooth，否则每帧 scrollTo 自带平滑会打架卡顿
       function step(ts) {
         if (t0 === null) t0 = ts;
         var p = Math.min((ts - t0) / dur, 1);
         window.scrollTo(0, Math.round(startY + dist * easeOutBack(p)));
         if (p < 1) requestAnimationFrame(step);
-        else docEl.style.scrollSnapType = prevSnap;    // 还原吸附
+        else { docEl.style.scrollSnapType = prevSnap; docEl.style.scrollBehavior = prevBeh; }  // 还原
       }
       requestAnimationFrame(step);
     }
@@ -309,7 +314,7 @@ function toggleLang() {
 
     // 向下指引 + 左侧轴：点击 → 弹性滚到对应屏
     // 为每个内容屏（除最后一屏）生成"只箭头"指引，点击弹到下一屏
-    var screens = Array.prototype.slice.call(document.querySelectorAll(".w-hero, .w-section"));
+    var screens = Array.prototype.slice.call(document.querySelectorAll(".w-hero, .w-section, .l-hero, .l-section"));
     for (var i = 1; i < screens.length - 1; i++) {       // 跳过 Hero(已有带字指引) 与最后一屏
       var next = screens[i + 1];
       if (!next.id) continue;
@@ -323,7 +328,7 @@ function toggleLang() {
 
     // 指引 + 左侧轴：事件委托 → 弹性滚动（兼容动态生成的指引）
     document.addEventListener("click", function (e) {
-      var a = e.target.closest && e.target.closest(".scroll-cue, .w-rail a");
+      var a = e.target.closest && e.target.closest(".scroll-cue, .w-rail a, .l-rail a");
       if (!a) return;
       var href = a.getAttribute("href");
       if (!href || href.charAt(0) !== "#") return;
@@ -333,7 +338,7 @@ function toggleLang() {
 
     // 每次进入板块 → 卡片重新弹入（离开则瞬间复位，回来再弹）
     if (!reduced && "IntersectionObserver" in window) {
-      var cards = document.querySelectorAll(".w-card.reveal");
+      var cards = document.querySelectorAll(".w-card.reveal, .l-card.reveal");
       var reObs = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           e.target.classList.toggle("in", e.isIntersecting);
@@ -341,5 +346,37 @@ function toggleLang() {
       }, { threshold: 0.35 });
       Array.prototype.forEach.call(cards, function (c) { reObs.observe(c); });
     }
+  })();
+
+  /* ---------- 2.11 生活页：彩蛋互动（名牌翻面 / 戳我喷爱心 / No.1 撒花） ---------- */
+  (function () {
+    if (!document.querySelector(".page-life")) return;   // 仅生活页
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // ENFJ 名牌翻面
+    var flip = document.querySelector("[data-flip]");
+    if (flip) flip.addEventListener("click", function () { this.classList.toggle("flipped"); });
+
+    // 点击迸发小元素（爱心 / 撒花）
+    function burst(x, y, set) {
+      if (reduce) return;
+      for (var i = 0; i < 14; i++) {
+        var s = document.createElement("span");
+        s.className = "spark";
+        s.textContent = set[(Math.random() * set.length) | 0];
+        s.style.left = x + "px";
+        s.style.top = y + "px";
+        s.style.setProperty("--dx", (Math.random() * 180 - 90).toFixed(0) + "px");
+        s.style.setProperty("--dy", (-(60 + Math.random() * 140)).toFixed(0) + "px");
+        s.style.fontSize = (14 + Math.random() * 14).toFixed(0) + "px";
+        document.body.appendChild(s);
+        (function (el) { window.setTimeout(function () { el.remove(); }, 1100); })(s);
+      }
+    }
+    document.querySelectorAll("[data-poke]").forEach(function (el) {
+      el.addEventListener("click", function (e) { burst(e.clientX, e.clientY, ["❤️", "💛", "🐾", "✨"]); });
+    });
+    var rank1 = document.querySelector(".rank-1");
+    if (rank1) rank1.addEventListener("click", function (e) { burst(e.clientX, e.clientY, ["🎉", "😋", "⭐", "🍜"]); });
   })();
 })();

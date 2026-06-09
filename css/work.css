@@ -145,7 +145,7 @@ html:has(body.page-work)::-webkit-scrollbar { width: 0; height: 0; display: none
 
 /* 可点击的"向下"指引：粗箭头，点一下弹到下一屏（抬高，不压版权） */
 .scroll-cue {
-  position: absolute; bottom: var(--s-12); left: 50%; transform: translateX(-50%); z-index: 4;
+  position: absolute; bottom: var(--s-16); left: 50%; transform: translateX(-50%); z-index: 4;
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   text-decoration: none; cursor: pointer; color: #fff;
   transition: color var(--t) var(--ease);

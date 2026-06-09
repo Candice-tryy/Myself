@@ -3,117 +3,174 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>生活 · 思考 — 唐瑞遥 Candice</title>
-  <meta name="description" content="我的兴趣爱好、生活随笔与日常的样子。" />
-  <!-- Google Fonts（依据 docs/00 §3）-->
+  <title>生活 · 原 — 唐瑞遥 Candice</title>
+  <meta name="description" content="唐瑞遥 Candice 的生活一面 —— 性格、爱好、宠物、美食，认真生活，随时交朋友。" />
+  <!-- Google Fonts（生活页加圆润的 Baloo 2 作标题）-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Hanken+Grotesk:wght@400;500;600&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Caveat+Brush&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Hanken+Grotesk:wght@400;500;600&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/common.css" />
   <link rel="stylesheet" href="css/life.css" />
 </head>
-<body class="life">
+<body class="page-life">
 
-  <!-- 浮动导航：返回首页 / 去工作页 -->
-  <nav class="floating-nav">
-    <a href="index.html">← 返回名片</a>
-    <a href="work.html">工作的一面 ✦</a>
+  <!-- 粉笔粗糙化 SVG 滤镜（给左上角控件用，与工作页一致） -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="chalk-soft" x="-12%" y="-16%" width="124%" height="132%">
+        <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="3" result="n" />
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.1 1.12" result="s" />
+        <feComposite in="SourceGraphic" in2="s" operator="in" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- 固定清晰田野背景（无蒙版） + 飘落花瓣 -->
+  <div class="field-bg"><img src="assets/hero_field.png" alt="" /></div>
+  <div class="petals" aria-hidden="true"></div>
+
+  <!-- 左上角：语言 + 音乐 -->
+  <div class="top-controls">
+    <button class="chalk-ctrl" onclick="toggleLang()" aria-label="切换语言 / Switch language">
+      <span lang="zh">EN</span><span lang="en">中</span>
+    </button>
+    <button class="chalk-ctrl music-ctrl" id="music-btn" aria-label="播放/暂停音乐" aria-pressed="false">♪</button>
+  </div>
+  <audio id="bgm" src="assets/music.mp3" loop preload="none"></audio>
+
+  <!-- 右上角：页面导航 -->
+  <nav class="page-nav" aria-label="页面导航">
+    <a href="index.html"><span lang="zh">← 首页</span><span lang="en">← Home</span></a>
+    <a href="work.html"><span lang="zh">工作 →</span><span lang="en">Work →</span></a>
   </nav>
 
-  <!-- ============ Hero ============ -->
+  <!-- ===== Hero ===== -->
   <header class="l-hero">
-    <span class="l-blob p"></span>
-    <span class="l-blob y"></span>
-    <span class="l-blob m"></span>
-    <div class="l-hero-inner">
-      <span class="l-emoji reveal">👋</span>
-      <h1 class="reveal">下班之后<br />我是这样的人</h1>
-      <p class="l-sub reveal">这里没有头衔，只有真实的喜欢、好奇和胡思乱想。</p>
+    <div class="l-hero-inner" data-depth="0.05">
+      <p class="l-kicker">Life · Off the Clock</p>
+      <h1 class="l-title">
+        <span lang="zh">生活</span><span lang="en">Life</span>
+      </h1>
+      <p class="l-intro">
+        <span lang="zh">下班之后是这样的我 —— 认真生活，随时交朋友 🌿</span>
+        <span lang="en">This is me off the clock — living fully, always up for new friends 🌿</span>
+      </p>
     </div>
+    <a class="scroll-cue" href="#personality" aria-label="进入下一屏">
+      <span class="cue-text"><span lang="zh">点击进入</span><span lang="en">ENTER</span></span>
+      <svg class="cue-svg" viewBox="0 0 28 28" aria-hidden="true"><path d="M6 10l8 8 8-8" /></svg>
+    </a>
   </header>
 
-  <!-- ============ 兴趣爱好 ============ -->
-  <section id="hobbies" class="l-section reveal">
-    <h2>🎨 我的兴趣</h2>
-    <p class="l-desc">那些让我充电、让我开心的事。</p>
-    <div class="hobbies">
-      <div class="hobby c1"><span class="h-emoji">📷</span><h3>摄影</h3><p>用镜头收集光与瞬间。</p></div>
-      <div class="hobby c2"><span class="h-emoji">🎵</span><h3>音乐</h3><p>写一句你最爱的风格或乐器。</p></div>
-      <div class="hobby c3"><span class="h-emoji">📚</span><h3>阅读</h3><p>最近在读的一本书。</p></div>
-      <div class="hobby c4"><span class="h-emoji">🏃</span><h3>运动</h3><p>跑步 / 健身 / 球类，随你填。</p></div>
-      <div class="hobby c5"><span class="h-emoji">✈️</span><h3>旅行</h3><p>想去或去过的地方。</p></div>
-      <div class="hobby c6"><span class="h-emoji">🍳</span><h3>下厨</h3><p>拿手菜或正在学的料理。</p></div>
-    </div>
-  </section>
+  <!-- ===== 内容 ===== -->
+  <main class="l-content">
 
-  <!-- ============ 思考随笔 ============ -->
-  <section id="notes" class="l-section reveal">
-    <h2>💭 一些思考</h2>
-    <p class="l-desc">偶尔写下的随笔、感悟和碎碎念。</p>
-    <div class="notes">
-      <article class="note">
-        <div class="date">2026 · 春</div>
-        <h3>关于「慢下来」</h3>
-        <p>在这里写一段你的思考。一两段就好，真诚比华丽更打动人。</p>
-      </article>
-      <article class="note">
-        <div class="date">2026 · 春</div>
-        <h3>一个小领悟</h3>
-        <p>记录一个最近让你有所触动的瞬间或想法。</p>
-      </article>
-      <article class="note">
-        <div class="date">2025 · 冬</div>
-        <h3>我在意的事</h3>
-        <p>写写你的价值观、对生活的态度，或者一个未完成的小目标。</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- ============ 照片墙 ============ -->
-  <section id="gallery" class="l-section reveal">
-    <h2>📸 生活碎片</h2>
-    <p class="l-desc">把方块换成你的照片：将 div 改成 &lt;img src="assets/xx.jpg"&gt; 即可。</p>
-    <div class="gallery">
-      <div class="photo g1">☀️</div>
-      <div class="photo g2">🌊</div>
-      <div class="photo g3">🌸</div>
-      <div class="photo g4">🍜</div>
-      <div class="photo g5">🌙</div>
-      <div class="photo g6">🐱</div>
-    </div>
-  </section>
-
-  <!-- ============ 喜欢的小事 ============ -->
-  <section id="likes" class="l-section reveal">
-    <h2>✨ 让我开心的小事</h2>
-    <p class="l-desc">生活里那些微小却确定的幸福。</p>
-    <div class="likes">
-      <span>清晨的咖啡</span>
-      <span>雨后的味道</span>
-      <span>循环单曲</span>
-      <span>深夜的代码</span>
-      <span>朋友的消息</span>
-      <span>猫猫狗狗</span>
-      <span>看完一本书</span>
-      <span>陌生的城市</span>
-      <span>窗边的阳光</span>
-    </div>
-  </section>
-
-  <!-- ============ 页脚联系 ============ -->
-  <footer class="l-foot reveal">
-    <div class="l-card">
-      <h2>想认识真实的我？</h2>
-      <p>无论是聊兴趣还是聊人生，我都很乐意 🙌</p>
-      <div class="l-contacts">
-        <a href="mailto:try_candice@163.com">✉️ 邮箱</a>
-        <a href="#" target="_blank" rel="noopener">📷 社交</a>
-        <a href="work.html">✦ 看看工作的我</a>
+    <!-- 1 性格 -->
+    <section id="personality" class="l-section">
+      <div class="l-card reveal">
+        <h2 class="l-h2"><span class="num">01</span>
+          <span lang="zh">性格</span><span lang="en">Personality</span></h2>
+        <div class="enfj">
+          <button class="enfj-badge" data-flip aria-label="ENFJ 名牌，点击翻面">
+            <span class="front">ENFJ<small><span lang="zh">主人公</span><span lang="en">Protagonist</span></small></span>
+            <span class="back"><span lang="zh">热情、爱张罗、容易共情～</span><span lang="en">Warm, organizing, empathetic~</span></span>
+          </button>
+          <ul class="traits">
+            <li><span class="t-name"><span lang="zh">外向</span><span lang="en">Extraverted</span></span><i style="--v:88%"></i></li>
+            <li><span class="t-name"><span lang="zh">共情</span><span lang="en">Empathetic</span></span><i style="--v:92%"></i></li>
+            <li><span class="t-name"><span lang="zh">行动力</span><span lang="en">Driven</span></span><i style="--v:80%"></i></li>
+          </ul>
+        </div>
+        <p class="l-cta"><span lang="zh">喜欢认识新朋友 —— </span><span lang="en">Love meeting new people — </span>
+          <a href="mailto:try_candice@163.com"><span lang="zh">来打个招呼？</span><span lang="en">say hi?</span></a></p>
       </div>
-    </div>
-  </footer>
+    </section>
 
-  <footer class="site-footer">© <span id="year"></span> 唐瑞遥 Candice · 同济大学供应链管理 · All rights reserved.</footer>
+    <!-- 2 爱好 -->
+    <section id="hobbies" class="l-section">
+      <div class="l-card reveal">
+        <h2 class="l-h2"><span class="num">02</span>
+          <span lang="zh">爱好</span><span lang="en">Hobbies</span></h2>
+        <p class="l-lead l-muted"><span lang="zh">那些让我充电、让我开心的事。（占位，按真实情况增删）</span><span lang="en">The things that recharge me. (placeholders — edit to fit)</span></p>
+        <div class="hobby-grid">
+          <div class="hobby"><span class="emo">📷</span><b><span lang="zh">摄影</span><span lang="en">Photo</span></b></div>
+          <div class="hobby"><span class="emo">🥾</span><b><span lang="zh">徒步</span><span lang="en">Hiking</span></b></div>
+          <div class="hobby"><span class="emo">🎹</span><b><span lang="zh">钢琴</span><span lang="en">Piano</span></b></div>
+          <div class="hobby"><span class="emo">📚</span><b><span lang="zh">读书</span><span lang="en">Reading</span></b></div>
+          <!-- 彩蛋：神秘卡，悬停揭晓 -->
+          <div class="hobby mystery"><span class="emo">❓</span><b><span lang="zh">悬停揭晓</span><span lang="en">hover me</span></b>
+            <span class="reveal-text"><span lang="zh">还在偷偷学滑雪 🎿</span><span lang="en">secretly learning to ski 🎿</span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 宠物 -->
+    <section id="pet" class="l-section">
+      <div class="l-card reveal">
+        <h2 class="l-h2"><span class="num">03</span>
+          <span lang="zh">宠物</span><span lang="en">My Pet</span></h2>
+        <div class="pet">
+          <!-- TODO：把 .pet-photo 换成 <img src="assets/pet.jpg" alt="豆豆"> -->
+          <figure class="pet-star" data-poke title="戳我">
+            <span class="pet-photo" aria-hidden="true">🐱</span>
+            <figcaption><b><span lang="zh">豆豆</span><span lang="en">Doudou</span></b>
+              <em><span lang="zh">点点我 👆</span><span lang="en">poke me 👆</span></em></figcaption>
+          </figure>
+          <div class="photo-wall">
+            <!-- TODO：换成 <img src="assets/life-1.jpg" alt=""> 等生活照 -->
+            <div class="photo">☀️</div>
+            <div class="photo">🌊</div>
+            <div class="photo">🌸</div>
+            <div class="photo">🍜</div>
+            <div class="photo">🌙</div>
+            <div class="photo">🐾</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 美食排行榜 -->
+    <section id="food" class="l-section">
+      <div class="l-card reveal">
+        <h2 class="l-h2"><span class="num">04</span>
+          <span lang="zh">美食排行榜</span><span lang="en">Food Ranking</span></h2>
+        <p class="l-lead l-muted"><span lang="zh">点 No.1 试试 🎉（占位，认真想一句神评语）</span><span lang="en">Tap No.1 🎉 (placeholders)</span></p>
+        <ol class="ranking">
+          <li class="rank-1" title="点我撒花"><span class="medal">🥇</span>
+            <b><span lang="zh">火锅</span><span lang="en">Hotpot</span></b>
+            <em><span lang="zh">永远的神</span><span lang="en">the GOAT</span></em></li>
+          <li class="rank-2"><span class="medal">🥈</span>
+            <b><span lang="zh">寿司</span><span lang="en">Sushi</span></b></li>
+          <li class="rank-3"><span class="medal">🥉</span>
+            <b><span lang="zh">烤肉</span><span lang="en">BBQ</span></b></li>
+          <li><span class="medal">4</span><b><span lang="zh">麻辣烫</span><span lang="en">Malatang</span></b></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 5 交个朋友 -->
+    <section id="friends" class="l-section">
+      <div class="l-card reveal">
+        <h2 class="l-h2"><span class="num">05</span>
+          <span lang="zh">交个朋友</span><span lang="en">Say Hi</span></h2>
+        <p class="l-lead"><span lang="zh">🌾 你都看到这儿啦～ 那一定挺合得来。无论聊兴趣还是聊人生，我都很乐意 🙌</span><span lang="en">🌾 You made it all the way down — we'd probably get along. Happy to chat about anything 🙌</span></p>
+        <div class="l-contact">
+          <a href="mailto:try_candice@163.com">✉ try_candice@163.com</a>
+          <a href="work.html"><span lang="zh">✦ 看看工作的我</span><span lang="en">✦ see the work side</span></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 左侧章节导航轴（刻度 + 名称浮出 + 高亮） -->
+  <nav class="l-rail" aria-label="章节导航">
+    <a href="#personality" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">性格</span><span lang="en">Personality</span></span></a>
+    <a href="#hobbies" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">爱好</span><span lang="en">Hobbies</span></span></a>
+    <a href="#pet" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">宠物</span><span lang="en">My Pet</span></span></a>
+    <a href="#food" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">美食</span><span lang="en">Food</span></span></a>
+    <a href="#friends" data-spy><span class="r-tick"></span><span class="r-label"><span lang="zh">交友</span><span lang="en">Say Hi</span></span></a>
+  </nav>
 
   <footer class="site-footer">© <span id="year"></span> 唐瑞遥 Candice · 同济大学供应链管理 · All rights reserved.</footer>
 
